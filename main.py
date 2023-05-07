@@ -22,7 +22,9 @@ incomeStatement = incomeStatement.json()
 balanceSheet = balanceSheet.json()
 cashFlowStatement = cashFlowStatement.json()
 
-print(marketCap[0]["marketCap"])
-print(incomeStatement[0])
-print(balanceSheet[0])
-print(cashFlowStatement[0])
+financialRatios = {
+    "ticker": ticker,
+    "Free Cash Flow yield": cashFlowStatement[0]["freeCashFlow"] / marketCap[0]["marketCap"]
+}
+
+print(financialRatios)
