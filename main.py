@@ -15,6 +15,9 @@ balanceSheet = requests.get(
     f"https://financialmodelingprep.com/api/v3/balance-sheet-statement/{ticker}?limit={years}&apikey={apiKey}")
 cashFlowStatement = requests.get(
     f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{ticker}?limit={years}&apikey={apiKey}")
+financialRatios = requests.get(
+    f"https://financialmodelingprep.com/api/v3/ratios-ttm/{ticker}?apikey={apiKey}"
+)
 
 # Convert to .json file
 marketCap = marketCap.json()
@@ -22,9 +25,10 @@ incomeStatement = incomeStatement.json()
 balanceSheet = balanceSheet.json()
 cashFlowStatement = cashFlowStatement.json()
 
+"""
 financialRatios = {
     "ticker": ticker,
     "Free Cash Flow yield": cashFlowStatement[0]["freeCashFlow"] / marketCap[0]["marketCap"]
 }
-
+"""
 print(financialRatios)
