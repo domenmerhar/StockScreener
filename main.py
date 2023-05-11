@@ -32,19 +32,26 @@ def GetInfo(years: int, ticker: str):  # Hints help document the parameters
         f.write("****Market Cap****")
         # Cycle through every item in the 2nd dimension
         for ratio in marketCap[0]:
-            f.write(f"{ratio}: {marketCap[0][ratio]}\n")
+            if (marketCap[0][ratio] != 0):
+                f.write(f"{ratio}: {marketCap[0][ratio]}\n")
 
-        f.write("\n****Income Statement****\n")
-        for ratio in incomeStatement[0]:
-            f.write(f"{ratio}: {incomeStatement[0][ratio]}\n")
+        f.write("\n****Income Statement****")
+        for year in range(years):
+            f.write("\n")
+            for ratio in incomeStatement[year]:
+                f.write(f"{ratio}: {incomeStatement[year][ratio]}\n")
 
-        f.write("\n****Balance Sheet****\n")
-        for ratio in balanceSheet[0]:
-            f.write(f"{ratio}: {balanceSheet[0][ratio]}\n")
+        f.write("\n****Balance Sheet****")
+        for year in range(years):
+            f.write("\n")
+            for ratio in balanceSheet[year]:
+                f.write(f"{ratio}: {balanceSheet[year][ratio]}\n")
 
-        f.write("\n****Cash Flow Statement****\n")
-        for ratio in cashFlowStatement[0]:
-            f.write(f"{ratio}: {cashFlowStatement[0][ratio]}\n")
+        f.write("\n****Cash Flow Statement****")
+        for year in range(years):
+            f.write("\n")
+            for ratio in cashFlowStatement[year]:
+                f.write(f"{ratio}: {cashFlowStatement[year][ratio]}\n")
 
         f.write("\n****Financial Ratios****\n")
         for ratio in financialRatios[0]:
