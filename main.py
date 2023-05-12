@@ -7,15 +7,21 @@ ticker = "META"
 years = 1
 
 
-def WriteRatios(financialStatement: dict, years: int, cutList: bool, ticker: str, typeOfStatement: str):
+def WipeTxt(ticker: str):
     with open(f"Output\{ticker}.txt", "w") as file:
-        file.write(f"\n****{typeOfStatement.capitalize()}****")
+        file.write("")
+
+
+def WriteRatios(financialStatement: dict, years: int, cutList: bool, ticker: str, typeOfStatement: str):
+    with open(f"Output\{ticker}.txt", "a") as file:
+        file.write(f"****{typeOfStatement.capitalize()}****")
 
         for year in range(years):
             file.write("\n")
 
             if (cutList):
-                ratios = list(financialStatement[year].keys())[8:-2]
+                ratios = list(financialStatement[year].keys())[
+                    8:-2]  # Cuts the first 8 and last 2 elements
 
                 for ratio in ratios:
                     if (financialStatement[year][ratio] != 0):
@@ -23,8 +29,10 @@ def WriteRatios(financialStatement: dict, years: int, cutList: bool, ticker: str
                             f"{ratio}: {financialStatement[year][ratio]}\n")
             else:
                 for ratio in financialStatement[year]:
-                    file.write(
-                        f"{ratio}: {financialStatement[year][ratio]}\n")
+                    if (financialStatement[year][ratio] != 0):
+                        file.write(
+                            f"{ratio}: {financialStatement[year][ratio]}\n")
+            file.write("\n")
 
 
 def GetInfo(years: int, ticker: str):  # Hints help document the parameters
@@ -47,10 +55,17 @@ def GetInfo(years: int, ticker: str):  # Hints help document the parameters
     cashFlowStatement = cashFlowStatement.json()
     financialRatios = financialRatios.json()
 
+    WipeTxt(ticker)
+    WriteRatios(marketCap, years, False, ticker, "Market Cap")
+    WriteRatios(incomeStatement, years, True, ticker, "Income Statement")
+    WriteRatios(balanceSheet, years, True, ticker, "Balance Sheet")
+    WriteRatios(cashFlowStatement, years, True, ticker, "Cash Flow Statement")
+    WriteRatios(financialRatios, years, True, ticker, "Financial Ratios")
+
+    """
     with open(f"Output\{ticker}.txt", "w") as f:  # Makes new file if it doesn't exist
 
         f.write("****Market Cap****\n")
-        # Cycle through every item in the 2nd dimension
         for ratio in marketCap[0]:
             if (marketCap[0][ratio] != 0):
                 f.write(f"{ratio}: {marketCap[0][ratio]}\n")
@@ -84,12 +99,7 @@ def GetInfo(years: int, ticker: str):  # Hints help document the parameters
         for ratio in financialRatios[0]:
             if (financialRatios[0][ratio] != 0):
                 f.write(f"{ratio}: {financialRatios[0][ratio]}\n")
+    """
 
 
-# GetInfo(1, "CROX")
-
-financialRatios = requests.get(
-    f"https://financialmodelingprep.com/api/v3/ratios-ttm/{ticker}?apikey={apiKey}")
-financialRatios = financialRatios.json()
-
-WriteRatios(financialRatios, 1, False, "META", "financialRatos")
+GetInfo(1, "CROX")
