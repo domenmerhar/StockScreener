@@ -12,7 +12,12 @@ def WipeTxt(ticker: str):
         file.write("")
 
 
-def WriteRatios(financialStatement: dict, years: int, cutList: bool, ticker: str, typeOfStatement: str):
+def AppendMarketCap(marketCap: dict, ticker: str):
+    with open(f"Output\{ticker}.txt", "a") as file:
+        file.write(f"Market Cap: {marketCap[0]['marketCap']}\n\n")
+
+
+def AppendRatios(financialStatement: dict, years: int, cutList: bool, ticker: str, typeOfStatement: str):
     with open(f"Output\{ticker}.txt", "a") as file:
         file.write(f"****{typeOfStatement.capitalize()}****")
 
@@ -56,50 +61,11 @@ def GetInfo(years: int, ticker: str):  # Hints help document the parameters
     financialRatios = financialRatios.json()
 
     WipeTxt(ticker)
-    WriteRatios(marketCap, years, False, ticker, "Market Cap")
-    WriteRatios(incomeStatement, years, True, ticker, "Income Statement")
-    WriteRatios(balanceSheet, years, True, ticker, "Balance Sheet")
-    WriteRatios(cashFlowStatement, years, True, ticker, "Cash Flow Statement")
-    WriteRatios(financialRatios, years, True, ticker, "Financial Ratios")
-
-    """
-    with open(f"Output\{ticker}.txt", "w") as f:  # Makes new file if it doesn't exist
-
-        f.write("****Market Cap****\n")
-        for ratio in marketCap[0]:
-            if (marketCap[0][ratio] != 0):
-                f.write(f"{ratio}: {marketCap[0][ratio]}\n")
-
-        f.write("\n****Income Statement****")
-        for year in range(years):
-            f.write("\n")
-            # Gets rid of the first 8 items and the last 2
-            ratios = list(incomeStatement[year].keys())[8:-2]
-            for ratio in ratios:
-                if (incomeStatement[0][ratio] != 0):
-                    f.write(f"{ratio}: {incomeStatement[year][ratio]}\n")
-
-        f.write("\n****Balance Sheet****")
-        for year in range(years):
-            f.write("\n")
-            ratios = list(balanceSheet[year].keys())[8:-2]
-            for ratio in ratios:
-                if (balanceSheet[0][ratio] != 0):
-                    f.write(f"{ratio}: {balanceSheet[year][ratio]}\n")
-
-        f.write("\n****Cash Flow Statement****")
-        for year in range(years):
-            f.write("\n")
-            ratios = list(cashFlowStatement[year].keys())[8:-2]
-            for ratio in ratios:
-                if (cashFlowStatement[0][ratio] != 0):
-                    f.write(f"{ratio}: {cashFlowStatement[year][ratio]}\n")
-
-        f.write("\n****Financial Ratios****\n")
-        for ratio in financialRatios[0]:
-            if (financialRatios[0][ratio] != 0):
-                f.write(f"{ratio}: {financialRatios[0][ratio]}\n")
-    """
+    AppendMarketCap(marketCap, ticker)
+    AppendRatios(incomeStatement, years, True, ticker, "Income Statement")
+    AppendRatios(balanceSheet, years, True, ticker, "Balance Sheet")
+    AppendRatios(cashFlowStatement, years, True, ticker, "Cash Flow Statement")
+    AppendRatios(financialRatios, years, True, ticker, "Financial Ratios")
 
 
 GetInfo(1, "CROX")
