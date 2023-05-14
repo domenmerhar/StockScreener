@@ -1,7 +1,13 @@
 import requests
-import matplotlib
+import pytickersymbols
 
-apiKey = open("apiKey.txt", "r").read()
+stockData = pytickersymbols()
+stocks = stockData.get_all_stocks_by_index("DAX")
+
+financialModelingString = "financialModelingApiKey"
+financialModelingApiKey = open(
+    f"API Keys\{financialModelingString}.txt", "r").read()
+polygonIoApiKey = open("API Keys\polygonIoApiKey.txt", "r").read()
 
 ticker = "MSFT"
 years = 5
@@ -76,7 +82,7 @@ def GetInfo(years: int, ticker: str, apiKey: str):  # Hints help document the pa
 
     with open(f"Output\{ticker}.txt", "a") as file:
         file.write(
-            f"{FinancialRatioGrowth(incomeGrowth, 'growthEPS', years)}%\n")
+            f"5-year EPS Growth Rate: {FinancialRatioGrowth(incomeGrowth, 'growthEPS', years)}%\n")
 
 
-GetInfo(years, ticker, apiKey)
+# GetInfo(years, ticker, apiKey)
