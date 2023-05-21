@@ -15,8 +15,13 @@ USTickers = []
 with open(txtFileLocation, "w") as file:
     file.write("")
 
+# Goes Through Every Company In Every Exchange
+for company in polygonClient.list_tickers(market="stocks", active=False, limit=1000):
+    if company is not None:
+        USTickers.append(company.ticker)
+
+USTickers = set(USTickers)
+
 with open(txtFileLocation, "a") as file:
-    # Goes Through Every Company In Every Exchange
-    for company in polygonClient.list_tickers(market="stocks", active=False, limit=1000):
-        if company != None:
-            file.write(f"{company.ticker}\n")
+    for ticker in USTickers:
+        file.write(f"{ticker}\n")
